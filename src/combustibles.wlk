@@ -17,9 +17,11 @@ object gasoil {
   
   method pureza(porentaje) {
     pureza = porentaje
-  }
+  } //metodo de cambio de estado
   
   method consumo() = 500 * pureza
   
   method sufijo() = "gasoil"
 }
+
+//sufijo() simplemente es un metodo de consulta para saber el nombre del combustible

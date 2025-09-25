@@ -11,17 +11,28 @@ program ejemplo {
   game.addVisual(lataDeCerveza)
   game.addVisual(barrilDeCombustible)
   game.addVisual(plantaDeTratamiento)
-  game.addVisualCharacter(capy)
+  game.addVisual(pokemon)
+  game.addVisualCharacter(capy)//se mueven con las flechas del teclado automaticamente
+  
+  //La diferencia entre addVisual y addVisualCharacter es que este ultimo lo podemos controlar con el teclado. Ambos muestran en pantalla el objeto
+  //para que anden los addVisual el objeto tiene que tener en su interfaz image() y position(), sino no anda
   
   game.onCollideDo(capy, { elemento =>
     elemento.colisionarCon(capy)
-  })
+  })//onCollideDo(objeto, cosa=> cosa.mensaje()), cuando el objeto indicado colision con "cosa", le podemos indicar a la "cosa" que hacer en consecuencia
   
   // Cambiar combustible cada 5 segundos
   game.onTick(5000, "cambiarCombustible", {
     barrilDeCombustible.cambiarCombustible()
     game.say(barrilDeCombustible, "El barril ahora tiene: " + barrilDeCombustible.combustibleActual().sufijo() )
   })
+
+  game.onTick(500, "mover basura", {
+    pokemon.actualizarPosicion()
+  })
+
+  //onTick(intervalo, nombre del tick, {codigo a ejecutar})
+  //en este caso cada 5 segundos el barril cambia de combustible y dice el nombre del combustible que tiene
   
   keyboard.h().onPressDo(
     {
@@ -30,5 +41,8 @@ program ejemplo {
         })
         }
   )
-  game.start()
+  //esta raro indentado esto pero simplemente al apretar la tecla 'h', luego de 2 segundos, muestra el atributo de huella de carbono del obj capy
+  //siendo exactos no muestra el atributo, mediante un metodo de consulta devuelve el valor actual que tiene de ese atributo,
+  //pero los atributos en si son privados (encapsulamiento)
+  game.start() //arranca el juego, va al final
 }

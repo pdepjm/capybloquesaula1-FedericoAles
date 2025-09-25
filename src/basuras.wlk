@@ -4,7 +4,8 @@ import combustibles.*
 
 object lataDeCerveza {
   var property position = posicionAleatoria.calcular()
-  var property longitudCm = 10
+  var property longitudCm = 10 //property te ahorra tener que escribir los getter y setters, es decir, en la linea 10 se pueda utilizar
+  //esta variable sin problemas, cuando normalmente tendrias que hacer un metodo de consulta y utilizar eso
   
   method impactoEnLaHuellaDeCarbono() = 5 * longitudCm
   method nombre() = "lata_roja"
@@ -17,7 +18,8 @@ object lataDeCerveza {
   }
   
   method colisionarCon(capy) {
-    capy.recolectarBasura(self)
+    capy.recolectarBasura(self) //es el metodo que se usa dentro del onCollideDo, donde el elemento es la basura, y se envia a si misma para que
+                                //capy la recolecte y la elimine de pantalla
 
   }
 }
@@ -34,7 +36,7 @@ object botellaDeGaseosa {
 
   method esReciclable() = true
   
-  method tratar() {
+  method tratar() { //estos metodos tratar de las basuras aparentan estar de mas
     impactoEnHuellaDeCarbono -= 5
   }
   
@@ -64,6 +66,40 @@ object barrilDeCombustible {
   
   method colisionarCon(capy) {
     capy.recolectarBasura(self)
-    game.removeTickEvent("cambiarCombustible")
+    game.removeTickEvent("cambiarCombustible") //elimina el evento de los ticks creados
+  }
+}
+
+object pokemon {
+  var property position = game.at(8, 0)
+  method impactoEnLaHuellaDeCarbono() = 500
+  var property direccion = "left"
+
+  method nombre() = "pokemon"
+
+  method image() = self.nombre() + ".png"  
+  
+  method colisionarCon(capy) {
+    capy.recolectarBasura(self)
+  }
+
+  method moverA(nuevaPosicion) {
+    position = nuevaPosicion
+  }
+
+  method actualizarPosicion() {
+    if (position.x() <= 0) {
+      direccion = "right"
+    }
+    else if (position.x() >= game.width() - 1) {
+      direccion = "left"
+    }
+
+    if (direccion == "left") {
+      self.moverA(self.position().left(1))
+      }
+    else {
+      self.moverA(self.position().right(1))
+      }
   }
 }
